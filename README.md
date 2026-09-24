@@ -1,61 +1,77 @@
-# Instituto Semente Viva — projeto HTML5
+# Instituto Semente Viva
 
-Site institucional demonstrativo para uma ONG fictícia, desenvolvido com HTML5 semântico, CSS responsivo e JavaScript progressivo.
+Projeto acadêmico demonstrativo de uma ONG fictícia. A aplicação usa Vite, Vanilla JavaScript e ES Modules, com uma única entrada `index.html` e renderização em `#app`. Os quatro HTMLs originais estão preservados, sem alteração, em `html/validado/` com seus recursos CSS, JavaScript e imagens.
+
+## Instalação e execução
+
+Requer Node.js 20.19+ ou 22.12+ e npm.
+
+```bash
+npm install
+npm run dev
+```
+
+Abra o endereço exibido pelo Vite. Para testar a versão de produção:
+
+```bash
+npm run build
+npm run preview
+```
+
+`npm run test` executa os testes Vitest. O build minificado fica em `dist/`.
 
 ## Estrutura
 
 ```text
-projeto-ong/
-├── index.html
-├── projetos.html
-├── cadastro.html
-├── componentes.html
-├── package.json
-├── assets/
-│   ├── css/style.css
-│   ├── js/script.js
-│   ├── images/
-│       ├── logo.svg e favicon.svg
-│       ├── hero-comunidade.(avif|webp|jpg)
-│       └── oficina-leitura.(avif|webp|jpg)
-│   └── screenshots/
-│       ├── feedback-badges-alertas.jpg
-│       ├── feedback-toast.jpg
-│       └── feedback-modal.jpg
-├── scripts/dev_server.py
-└── RELATORIO_VALIDACAO.md
+index.html                 entrada da SPA
+src/js/app.js              composição e inicialização
+src/js/router.js           History API, voltar/avançar e 404
+src/js/templates.js        cabeçalho, rodapé e templates das rotas
+src/js/components.js       menu, favoritos e tema
+src/js/form-validation.js  máscaras e validação acessível
+src/js/storage.js          apenas favoritos e preferência de tema
+src/js/feedback.js         toast e modal
+src/pages/                 conteúdo das quatro páginas preservado como fragmentos
+assets/css/style.css       design system e temas
+public/assets/images/      imagens responsivas para o build
+html/validado/             HTMLs originais e recursos para comprovação
+tests/                    roteamento, armazenamento e validação
+scripts/                  auditorias do navegador e legado do servidor estático
+netlify.toml               publicação e fallback da SPA
 ```
 
-## Como executar
+## Rotas e funcionalidades
 
-Abra `index.html` diretamente no navegador ou, na pasta do projeto, rode um servidor local:
+As rotas `/`, `/projetos`, `/cadastro` e `/componentes` são navegadas pela History API. Links internos, âncoras, botões voltar e avançar do navegador e endereços inexistentes têm tratamento próprio. URLs antigas como `/projetos.html` também são reconhecidas pelo roteador quando o servidor entrega `index.html`.
+
+O cadastro mantém os campos, máscaras e validações originais. Erros aparecem junto ao campo e são relacionados por `aria-invalid` e `aria-describedby`. O formulário é demonstrativo: nenhum dado pessoal é enviado ou armazenado. Apenas identificadores de projetos favoritos e a escolha de tema entram em `localStorage`; CPF, endereço, telefone e e-mail não entram.
+
+O tema inicial segue `prefers-color-scheme` até a pessoa usar o botão. O botão expõe o estado com `aria-pressed`. O site mantém menu responsivo, submenu, badges, alertas, toast e modal.
+
+## Acessibilidade
+
+Há landmarks, um `h1` por rota, link de salto, foco visível, navegação por teclado, nomes acessíveis dos controles e suporte a `prefers-reduced-motion`. As fotos usam `<picture>` com AVIF, WebP e JPG, `srcset`, `sizes`, dimensões explícitas, texto alternativo e carregamento diferido na foto de projeto. A imagem principal tem prioridade alta.
+
+O Nu HTML Checker retornou zero erros e avisos para as cinco rotas renderizadas em 24/09/2026. O axe não apontou violações WCAG 2.1 A/AA nas mesmas rotas, em tema claro e escuro, a 1280 e 375 px. Essas verificações automatizadas não substituem uma avaliação manual completa com tecnologias assistivas.
+
+## Testes e auditoria local
 
 ```bash
-npm run dev
+npm run test
+npm run build
+npm run preview -- --host 127.0.0.1 --port 4173
+node scripts/browser-audit.mjs
+node scripts/a11y-audit.mjs
 ```
 
-Depois acesse `http://localhost:4173`.
+Os dois últimos scripts usam uma instalação local do Chrome em Windows. Para outro caminho, defina `CHROME_PATH`. `browser-audit.mjs` verifica interações, console e respostas HTTP e grava instantâneos HTML na pasta temporária `semente-viva-html-audit` para validação externa. O relatório histórico dos HTMLs originais está em `RELATORIO_VALIDACAO.md`.
 
-## Recursos implementados
+## GitFlow e release
 
-- Tags semânticas: `header`, `nav`, `main`, `section`, `article`, `aside`, `address` e `footer`.
-- Hierarquia de títulos com um `h1` por página e subseções em `h2`/`h3`.
-- Link para pular ao conteúdo, foco visível, navegação por teclado e suporte a redução de movimento.
-- Imagens responsivas em AVIF, WebP e JPG com `<picture>`, dimensões explícitas e textos alternativos contextuais.
-- Formulário organizado com `fieldset` e `legend`, rótulos associados e `autocomplete`.
-- Validação HTML5 nativa com `required`, `type`, `pattern`, `minlength` e `maxlength`.
-- Máscaras progressivas de CPF, telefone e CEP em JavaScript, mantendo o `pattern` como validação nativa.
-- Navegação responsiva com submenu acessível por ponteiro, teclado e clique; no breakpoint de 768 px, o menu horizontal é convertido em menu hambúrguer.
-- Estados visuais completos para botões (`hover`, `focus-visible`, `active` e `disabled`) e feedback de validação dos formulários com `:user-valid`, `:user-invalid` e mensagens de status.
-- Catálogo visual com badges semânticos, alertas, toast não obstrutivo e modal acessível.
-- Layout responsivo para desktop, tablet e celular.
+O commit inicial em `main` registra a versão HTML anterior. `develop` recebe funcionalidades por branches `feature/` com Conventional Commits. A branch `release/v1.0.0` contém a versão preparada para revisão; nenhum deploy, Pull Request ou publicação remota foi realizado.
 
-## Design System
+## Deploy no Netlify
 
-O arquivo `assets/css/style.css` concentra os tokens visuais no seletor `:root`. A paleta possui verdes primários, terracotas secundários e uma escala de neutros. A tipografia utiliza oito níveis, de `--font-size-xs` a `--font-size-3xl`, incluindo títulos fluidos com `clamp()`. Os espaçamentos seguem uma escala modular de 4 px, de `--space-1` (4 px) a `--space-32` (128 px). Os componentes consomem aliases semânticos para permitir ajustes globais sem alterar cada regra individualmente.
+O arquivo `netlify.toml` define `npm run build`, publica `dist/` e redireciona caminhos da SPA para `index.html`. Para publicar, conecte o repositório no Netlify e execute o deploy após a revisão da release.
 
-O layout macroscópico usa CSS Grid com 12 colunas fluidas, declarado por `repeat(var(--grid-columns), minmax(0, 1fr))`. Cards e indicadores ocupam 4 colunas; blocos duplos utilizam combinações 6/6, 7/5 ou 4/8. Cinco breakpoints de largura reorganizam o conteúdo em 1280, 1024, 768, 480 e 360 px, além da consulta específica para redução de movimento.
-
-## Observação acadêmica
-
-O nome da organização, os números de impacto, contatos e dados bancários são fictícios. O formulário demonstra a validação no navegador, mas não envia nem armazena dados. Em produção, seria indispensável validar novamente no servidor, proteger os dados pessoais e fornecer uma política de privacidade compatível com a LGPD.
+**Nota acadêmica:** organização, métricas, contatos e dados bancários são fictícios. Não faça transferências para a chave PIX demonstrativa. Um serviço real exigiria backend, validação no servidor, proteção de dados e política de privacidade apropriada.
