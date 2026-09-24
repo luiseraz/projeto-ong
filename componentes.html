@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demonstração dos componentes de feedback da plataforma Semente Viva.">
+  <title>Componentes de feedback | Semente Viva</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="feedback-demo-page">
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo principal</a>
+
+  <header class="demo-header">
+    <div class="container demo-header-inner">
+      <a class="brand" href="index.html" aria-label="Semente Viva — página inicial">
+        <span class="brand-mark" aria-hidden="true">SV</span>
+        <span><strong>Semente Viva</strong><br>Plataforma social</span>
+      </a>
+      <a class="button button-secondary button-small" href="index.html">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main id="conteudo" class="component-page">
+    <section class="component-hero" aria-labelledby="titulo-pagina">
+      <div class="container">
+        <span class="eyebrow">Design System</span>
+        <h1 id="titulo-pagina">Componentes de feedback</h1>
+        <p>Respostas visuais claras e acessíveis para orientar doadores, voluntários e organizações durante cada interação.</p>
+      </div>
+    </section>
+
+    <div class="container component-layout">
+      <section class="component-panel component-panel-wide" aria-labelledby="titulo-badges">
+        <div class="component-heading">
+          <div><span class="component-number" aria-hidden="true">01</span><h2 id="titulo-badges">Badges semânticos</h2></div>
+          <p>Etiquetas compactas para indicar estado, prioridade e categoria.</p>
+        </div>
+        <ul class="badge-list" aria-label="Exemplos de badges">
+          <li class="badge badge-success"><span aria-hidden="true">●</span> Projeto ativo</li>
+          <li class="badge badge-info"><span aria-hidden="true">●</span> Voluntariado aberto</li>
+          <li class="badge badge-warning"><span aria-hidden="true">●</span> Meta próxima</li>
+          <li class="badge badge-neutral"><span aria-hidden="true">●</span> Em análise</li>
+        </ul>
+      </section>
+
+      <section class="component-panel" aria-labelledby="titulo-alertas">
+        <div class="component-heading">
+          <div><span class="component-number" aria-hidden="true">02</span><h2 id="titulo-alertas">Caixas de alerta</h2></div>
+          <p>Mensagens persistentes com cor, ícone e texto.</p>
+        </div>
+        <div class="alert-stack">
+          <div class="alert alert-success" role="status"><span class="alert-icon" aria-hidden="true">✓</span><div><strong>Cadastro concluído</strong><p>Recebemos seus dados e enviaremos a confirmação por e-mail.</p></div></div>
+          <div class="alert alert-info" role="status"><span class="alert-icon" aria-hidden="true">i</span><div><strong>Atualização disponível</strong><p>Há novas oportunidades de voluntariado na sua região.</p></div></div>
+          <div class="alert alert-warning" role="alert"><span class="alert-icon" aria-hidden="true">!</span><div><strong>Atenção ao prazo</strong><p>As inscrições para este projeto terminam em dois dias.</p></div></div>
+          <div class="alert alert-error" role="alert"><span class="alert-icon" aria-hidden="true">×</span><div><strong>Não foi possível enviar</strong><p>Revise os campos destacados e tente novamente.</p></div></div>
+        </div>
+      </section>
+
+      <section class="component-panel" aria-labelledby="titulo-acoes">
+        <div class="component-heading">
+          <div><span class="component-number" aria-hidden="true">03</span><h2 id="titulo-acoes">Toast e modal</h2></div>
+          <p>Retorno temporário e confirmação focada para decisões importantes.</p>
+        </div>
+        <div class="feedback-actions">
+          <button class="button" type="button" data-toast-trigger>Exibir toast</button>
+          <button class="button button-secondary" type="button" data-modal-trigger>Abrir modal</button>
+        </div>
+        <div class="feedback-guidance">
+          <span aria-hidden="true">A11Y</span>
+          <p><strong>Acessibilidade incorporada:</strong> foco visível, contraste elevado, mensagens anunciadas por leitores de tela e fechamento por teclado.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast-region" aria-live="polite" aria-atomic="true">
+    <div class="toast toast-success" id="demo-toast" role="status" hidden>
+      <span class="toast-icon" aria-hidden="true">✓</span>
+      <div class="toast-content"><strong>Interesse registrado!</strong><p>A organização entrará em contato com você.</p></div>
+      <button class="toast-close" type="button" data-toast-close aria-label="Fechar notificação">×</button>
+    </div>
+  </div>
+
+  <dialog class="feedback-modal" id="demo-modal" aria-labelledby="modal-titulo" aria-describedby="modal-descricao">
+    <form method="dialog">
+      <button class="modal-close" type="submit" aria-label="Fechar janela">×</button>
+      <span class="modal-icon" aria-hidden="true">♡</span>
+      <span class="eyebrow">Confirmação</span>
+      <h2 id="modal-titulo">Deseja apoiar este projeto?</h2>
+      <p id="modal-descricao">Ao confirmar, a ONG receberá seu interesse e poderá entrar em contato para apresentar as próximas etapas.</p>
+      <div class="modal-actions">
+        <button class="button button-secondary" type="submit" value="cancel">Agora não</button>
+        <button class="button" type="submit" value="confirm" data-modal-confirm>Confirmar interesse</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
